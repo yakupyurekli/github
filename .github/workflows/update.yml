@@ -1,0 +1,35 @@
+name: Run Collector Bot Daily
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # UTC 07:00 = Türkiye saatiyle 10:00
+  workflow_dispatch:      # elle başlatma butonu
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodları klonla
+        uses: actions/checkout@v3
+
+      - name: Python kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Kütüphaneleri yükle
+        run: pip install requests python-dotenv
+
+      - name: Botu çalıştır
+        run: python collector.py
+
+      - name: Değişiklikleri push et
+        run: |
+          git config user.name "yakup-collector-bot"
+          git config user.email "yakup@example.com"
+          git add .
+          git commit -m "🧠 Otomatik güncelleme: $(date +'%Y-%m-%d')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
