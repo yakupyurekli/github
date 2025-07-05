@@ -37,3 +37,5 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+   run: |
+      git diff --cached --quiet && echo "No changes" && exit 0
