@@ -1,0 +1,35 @@
+name: Run Collector Bot Daily
+
+on:
+  workflow_dispatch:     # Elle tetiklemek için
+  schedule:
+    - cron: "0 12 * * *"  # Her gün 12:00'de çalışır (UTC)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodları klonla
+        uses: actions/checkout@v3
+
+      - name: Python kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Kütüphaneleri yükle
+        run: |
+          pip install -r requirements.txt
+
+      - name: Botu çalıştır
+        run: |
+          python collector.py
+
+      - name: Değişiklikleri push et
+        run: |
+          git config --global user.name "collector-bot"
+          git config --global user.email "bot@example.com"
+          git add .
+          git commit -m "🛠 Bot Güncelleme" || echo "No changes to commit"
+          git push
