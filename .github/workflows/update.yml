@@ -37,8 +37,8 @@ jobs:
 
       - name: 🚀 Değişiklikleri push et
         run: |
-          git config --global user.name "yakup-collector-bot"
-          git config --global user.email "yakup@example.com"
+          git config --global user.name "Yakup  Yürekli"
+          git config --global user.email "yakupyurekl@hotmail.com"
           git add .
           if git diff --cached --quiet; then
             echo "✅ Değişiklik yok. Commit atlanıyor."
